@@ -30,4 +30,5 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'steak'
   gem 'capybara-envjs'
+  gem 'launchy'
 end
