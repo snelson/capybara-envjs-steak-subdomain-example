@@ -12,18 +12,22 @@ feature "Subdomains" do
   end
 
   scenario "Access subdomain one" do
-    Capybara.default_host = "one.example.com"
-    Capybara.app_host     = "http://one.example.com"
+    set_subdomain("one")
     visit '/'
     current_url.should == "http://one.example.com/" # passes
-    find("h1").text.should == "http://one.example.com/" # fails with envjs
+    find("h1").text.should == "http://one.example.com/" # passes
   end
 
   scenario "Access subdomain two" do
-    Capybara.default_host = "two.example.com"
-    Capybara.app_host     = "http://two.example.com"
+    set_subdomain("two")
     visit '/'
     current_url.should == "http://two.example.com/" # passes
-    find("h1").text.should == "http://two.example.com/" # fails with envjs
+    find("h1").text.should == "http://two.example.com/" # passes
+  end
+
+  def set_subdomain(subdomain)
+    Capybara.default_host = "#{subdomain}.example.com"
+    Capybara.app_host     = "http://#{subdomain}.example.com"
+    switch_session(subdomain)
   end
 end
